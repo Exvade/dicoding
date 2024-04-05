@@ -60,9 +60,11 @@ document.addEventListener(RENDER_EVENT, function () {
 
 function makeTodo(todoObject) {
   const textTitle = document.createElement("h2");
+  textTitle.classList.add("text-xl", "font-medium");
   textTitle.innerText = todoObject.task;
-
+  
   const textAuthor = document.createElement("p");
+  textAuthor.classList.add("text-[14px]", "-mt-[2px]", "mb-2");
   textAuthor.innerText = todoObject.author;
 
   const textContainer = document.createElement("div");
@@ -70,20 +72,22 @@ function makeTodo(todoObject) {
   textContainer.append(textTitle, textAuthor);
 
   const container = document.createElement("div");
-  container.classList.add("item", "shadow");
+  container.classList.add("mb-4");
   container.append(textContainer);
   container.setAttribute("id", `todo-${todoObject.id}`);
 
   if (todoObject.isCompleted) {
     const undoButton = document.createElement("button");
-    undoButton.classList.add("undo-button");
+    undoButton.classList.add("bg-green-500", "mr-2", "text-white", "px-2", "py-1", "font-medium", "rounded-sm");
+    undoButton.textContent = "Tandai Belum Selesai Dibaca";
 
     undoButton.addEventListener("click", function () {
       undoTaskFromCompleted(todoObject.id);
     });
 
     const trashButton = document.createElement("button");
-    trashButton.classList.add("trash-button");
+    trashButton.classList.add("bg-red-500", "text-white", "px-2", "py-1", "font-medium", "rounded-sm");
+    trashButton.textContent = "Hapus";
 
     trashButton.addEventListener("click", function () {
       removeTaskFromCompleted(todoObject.id);
@@ -92,7 +96,8 @@ function makeTodo(todoObject) {
     container.append(undoButton, trashButton);
   } else {
     const checkButton = document.createElement("button");
-    checkButton.classList.add("check-button");
+    checkButton.classList.add("bg-blue-500", "mr-2", "text-white", "px-2", "py-1", "font-medium", "rounded-sm");
+    checkButton.textContent = "Tandai Sudah Selesai Dibaca";
 
     checkButton.addEventListener("click", function () {
       addTaskToCompleted(todoObject.id);
