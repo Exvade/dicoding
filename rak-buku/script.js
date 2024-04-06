@@ -14,16 +14,27 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function addTodo() {
-  const textTodo = document.getElementById("title").value;
-  const author = document.getElementById("author").value;
+  const textTodo = document.getElementById("title").value.trim();
+  const author = document.getElementById("author").value.trim();
+  const year = document.getElementById("year").value.trim();
+  const checkbox = document.getElementById("myCheckBox").checked;
+
+  if (!textTodo || !author || !year) {
+    alert("Mohon lengkapi judul penulis dan tahun buku!");
+    return;
+  }
 
   const generatedID = generateId();
+  const isComplete = checkbox; // Tidak perlu memanggil .checked lagi
+
   const todoObject = generateTodoObject(
     generatedID,
     textTodo,
     author,
-    false
+    year,
+    isComplete
   );
+
   todos.push(todoObject);
 
   document.dispatchEvent(new Event(RENDER_EVENT));
@@ -31,15 +42,17 @@ function addTodo() {
   saveData();
 }
 
+
 function generateId() {
   return +new Date();
 }
 
-function generateTodoObject(id, task, author, isCompleted) {
+function generateTodoObject(id, title, author, year, isCompleted) {
   return {
     id,
-    task,
+    title,
     author,
+    year,
     isCompleted,
   };
 }
@@ -58,18 +71,26 @@ document.addEventListener(RENDER_EVENT, function () {
   }
 });
 
+
+
 function makeTodo(todoObject) {
   const textTitle = document.createElement("h2");
   textTitle.classList.add("text-xl", "font-medium");
-  textTitle.innerText = todoObject.task;
+  textTitle.innerText = todoObject.title;
   
   const textAuthor = document.createElement("p");
-  textAuthor.classList.add("text-[14px]", "-mt-[2px]", "mb-2");
+  textAuthor.classList.add("text-[14px]", "-mt-[2px]");
   textAuthor.innerText = todoObject.author;
+
+  const textYear = document.createElement("p");
+  textYear.classList.add("text-[12px]", "-mt-[2px]", "mb-2");
+  textYear.innerText = todoObject.year;
+
+
 
   const textContainer = document.createElement("div");
   textContainer.classList.add("inner");
-  textContainer.append(textTitle, textAuthor);
+  textContainer.append(textTitle, textAuthor, textYear);
 
   const container = document.createElement("div");
   container.classList.add("mb-4");
@@ -136,6 +157,7 @@ function removeTaskFromCompleted(todoId) {
   todos.splice(todoTarget, 1);
   document.dispatchEvent(new Event(RENDER_EVENT));
   saveData();
+  alert("Data berhasil di hapus");
 }
 
 function undoTaskFromCompleted(todoId) {

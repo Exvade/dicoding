@@ -16,14 +16,22 @@
 <div class=" w-[50%] mx-auto">
   <div class="" id="add-todo">
     <h2 class="mt-2 text-center">Tambahkan  Data Buku</h2>
-    <form class="form mt-4" action="#" id="form">
-      <div class="form-group form-title">
-        <label for="title" class="block">Masukkan Nama Buku</label>
+    <form class="mt-4" action="#" id="form">
+      <div>
+        <label for="title" class="block">Judul</label>
         <input type="text" id="title" name="title" class="w-full rounded-sm h-8 border-2" required>
       </div>
-      <div class="form-group form-title">
-        <label for="author" class="block mt-3">Masukkan Nama Penulis</label>
+      <div class="mt-3">
+        <label for="author" class="block ">Penulis</label>
         <input type="text" id="author" name="author" class="w-full rounded-sm h-8 border-2" required>
+      </div>
+      <div class="mt-3">
+        <label for="year" class="block ">Tahun</label>
+        <input type="number" id="year" name="year" class="w-full rounded-sm h-8 border-2" required>
+      </div>
+      <div>
+        <input type="checkbox" id="myCheckBox">
+        <label for="myCheckBox">Selesai Dibaca</label>
       </div>
       <input type="submit" value="Submit" name="Submit" class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md mt-4">
     </form>
