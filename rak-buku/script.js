@@ -16,16 +16,16 @@ document.addEventListener("DOMContentLoaded", function () {
 function addTodo() {
   const textTodo = document.getElementById("title").value.trim();
   const author = document.getElementById("author").value.trim();
-  const year = document.getElementById("year").value.trim();
+  const year = parseInt(document.getElementById("year").value.trim());
   const checkbox = document.getElementById("myCheckBox").checked;
 
-  if (!textTodo || !author || !year) {
+  if (!textTodo || !author || isNaN(year)) {
     alert("Mohon lengkapi judul penulis dan tahun buku!");
     return;
   }
 
   const generatedID = generateId();
-  const isComplete = checkbox; // Tidak perlu memanggil .checked lagi
+  const isComplete = checkbox; 
 
   const todoObject = generateTodoObject(
     generatedID,
@@ -47,13 +47,13 @@ function generateId() {
   return +new Date();
 }
 
-function generateTodoObject(id, title, author, year, isCompleted) {
+function generateTodoObject(id, title, author, year, isComplete) {
   return {
     id,
     title,
     author,
     year,
-    isCompleted,
+    isComplete,
   };
 }
 
@@ -66,7 +66,7 @@ document.addEventListener(RENDER_EVENT, function () {
 
   for (const todoItem of todos) {
     const todoElement = makeTodo(todoItem);
-    if (!todoItem.isCompleted) uncompletedTODOList.append(todoElement);
+    if (!todoItem.isComplete) uncompletedTODOList.append(todoElement);
     else completedTODOList.append(todoElement);
   }
 });
@@ -97,7 +97,7 @@ function makeTodo(todoObject) {
   container.append(textContainer);
   container.setAttribute("id", `todo-${todoObject.id}`);
 
-  if (todoObject.isCompleted) {
+  if (todoObject.isComplete) {
     const undoButton = document.createElement("button");
     undoButton.classList.add("bg-green-500", "mr-2", "text-white", "px-2", "py-1", "font-medium", "rounded-sm");
     undoButton.textContent = "Tandai Belum Selesai Dibaca";
@@ -135,7 +135,7 @@ function addTaskToCompleted(todoId) {
 
   if (todoTarget == null) return;
 
-  todoTarget.isCompleted = true;
+  todoTarget.isComplete = true;
   document.dispatchEvent(new Event(RENDER_EVENT));
   saveData();
 }
@@ -165,7 +165,7 @@ function undoTaskFromCompleted(todoId) {
 
   if (todoTarget == null) return;
 
-  todoTarget.isCompleted = false;
+  todoTarget.isComplete = false;
   document.dispatchEvent(new Event(RENDER_EVENT));
   saveData();
 }
