@@ -124,7 +124,15 @@ function makeTodo(todoObject) {
       addTaskToCompleted(todoObject.id);
     });
 
-    container.append(checkButton);
+    const trashButton = document.createElement("button");
+    trashButton.classList.add("bg-red-500", "text-white", "px-2", "py-1", "font-medium", "rounded-sm");
+    trashButton.textContent = "Hapus";
+
+    trashButton.addEventListener("click", function () {
+      removeTaskFromCompleted(todoObject.id);
+    });
+
+    container.append(checkButton, trashButton);
   }
 
   return container;
